@@ -1,25 +1,28 @@
-import React, { useEffect } from 'react';
-import { io } from 'socket.io-client';
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video Calling App</title>
+</head>
+<body>
+  <h1>Video Call Page</h1>
+  <p id="status">Connecting...</p>
 
-// ✅ Yahan apna backend Render URL daalo
-const socket = io("https://your-backend-url.onrender.com");
+  <!-- Socket.IO client script -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 
-function Call() {
-  useEffect(() => {
+  <!-- Apna JS code -->
+  <script>
+    // ✅ Replace with your backend URL
+    const socket = io("http://localhost:5173/");
+
     socket.on("connect", () => {
-      console.log("✅ Connected to socket with ID:", socket.id);
+      console.log("✅ Connected with ID:", socket.id);
+      document.getElementById('status').innerText = "Connected to Socket.IO";
     });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
-  return (
-    <div>
-      <p>Socket connection active.</p>
-    </div>
-  );
-}
-
-export default Call;
+    socket.on("disconnect", () => {
+      document.getElementById('status').innerText = "Disconnected";
+    });
+  </script>
+</body>
+</html>
